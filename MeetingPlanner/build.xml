@@ -1,0 +1,64 @@
+<project name="MeetingPlanner" default="run-tests" basedir=".">
+    <!-- Folder configurations -->
+    <property name="src.main" value="src/main/java"/>
+    <property name="src.test" value="src/test/java"/>
+    <property name="build" value="build"/>
+    <property name="docs" value="doc"/>
+    <property name="lib" value="lib"/>
+
+    <!-- Clean target -->
+    <target name="clean">
+        <delete dir="${build}"/>
+        <delete dir="${docs}"/>
+    </target>
+
+    <!-- Compile main source files -->
+    <target name="compile" depends="clean">
+        <mkdir dir="${build}/main"/>
+        <javac srcdir="${src.main}" destdir="${build}/main" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Compile test source files -->
+    <target name="compile-tests" depends="compile">
+        <mkdir dir="${build}/test"/>
+        <javac srcdir="${src.test}" destdir="${build}/test" includeantruntime="false">
+            <classpath>
+                <pathelement path="${build}/main"/>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Generate Javadoc -->
+    <target name="javadoc" depends="compile">
+        <mkdir dir="${docs}"/>
+        <javadoc sourcepath="${src.main}" destdir="${docs}" author="true" version="true" use="true"
+                 windowtitle="MeetingPlanner API"/>
+    </target>
+
+    <!-- Run JUnit tests -->
+    <target name="run-tests" depends="compile-tests">
+        <junit printsummary="yes" haltonfailure="false" fork="true">
+            <classpath>
+                <pathelement path="${build}/main"/>
+                <pathelement path="${build}/test"/>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <batchtest>
+                <fileset dir="${src.test}">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+</project>
