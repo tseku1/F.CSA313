@@ -95,9 +95,7 @@ Total time: 2 seconds
            <html destdir="coverage/report"/>
        </jacoco:report>
    </target>
-
-
-run: ant clean compile compile-tests coverage
+   
 
 ## 🧪 Хийсэн тестүүд ба үр дүн
 
@@ -106,7 +104,7 @@ run: ant clean compile compile-tests coverage
 **CalendarTest**
 - `checkTimes_monthTwelve_bug` — `mMonth == 12` үед буруу `TimeConflictException` шидэж байгааг барьсан.
 - `isBusy_bug_fullCover_returnsFalseButShouldBeTrue` — бүрэн давхцах интервал (existing 10–12, new 9–13) үед `isBusy` буруу ажиллаж байгааг харуулсан.
-- `addMeeting_bug_fullCover_notDetected` — бүрэн давхцах үед `addMeeting` зөрчил илрүүлж `TimeConflictException` шидэх ёстой ч илрүүлэхгүй байгааг (логикийн цоорхой) барьсан.
+- `addMeeting_bug_fullCover_notDetected` — бүрэн давхцах үед `addMeeting` зөрчил илрүүлж `TimeConflictException` шидэх ёстой ч илрүүлэхгүй байгааг барьсан.
 - `testAddMeeting_holiday` — бүхэл өдөр блоклох (0–23) уулзалт нэмэх ба завгүй байдлыг шалгасан.
 
 **PersonTest**
