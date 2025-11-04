@@ -98,3 +98,59 @@ Total time: 2 seconds
 
 
 run: ant clean compile compile-tests coverage
+
+## 🧪 Хийсэн тестүүд ба үр дүн
+
+### 1) Нэмсэн / шинэчилсэн white-box тестүүд
+
+**CalendarTest**
+- `checkTimes_monthTwelve_bug` — `mMonth == 12` үед буруу `TimeConflictException` шидэж байгааг (кодын алдаа) барьсан.
+- `isBusy_bug_fullCover_returnsFalseButShouldBeTrue` — бүрэн давхцах интервал (existing 10–12, new 9–13) үед `isBusy` буруу ажиллаж байгааг харуулсан (логикийн цоорхой).
+- `addMeeting_bug_fullCover_notDetected` — бүрэн давхцах үед `addMeeting` зөрчил илрүүлж `TimeConflictException` шидэх ёстой ч илрүүлэхгүй байгааг (логикийн цоорхой) барьсан.
+- `testAddMeeting_holiday` — бүхэл өдөр блоклох (0–23) уулзалт нэмэх ба завгүй байдлыг шалгасан.
+
+**PersonTest**
+- `testAddMeetingAndIsBusy` — эндпойнт **inclusive** гэдгийг харгалзан 11–12-ыг **busy=true** гэж баталгаажуулсан (boundary нөхцөл).
+- `testAddConflictingMeetingThrowsException` — давхцах уулзалт нэмэхэд `TimeConflictException`-ийн мессеж **“Conflict for attendee …”** префикс зөв гарч буйг шалгасан.
+- Бусад: `testRemoveMeeting`, `testPrintAgenda`, `testConstructorAndGetName`.
+
+**RoomTest**
+- `testAddMeetingAndIsBusy` — эндпойнт inclusive boundary нөхцөлийг баталгаажуулсан.
+- `testAddConflictingMeetingThrowsException` — `TimeConflictException` мессеж **“Conflict for room …”** префикс зөв.
+- Бусад: `testRemoveMeeting`, `testPrintAgenda`, `testConstructorAndGetID`.
+
+**MeetingTest**
+- `testDefaultConstructor` — `attendees`, `room`, `description` нь **null** байдаг precondition-ийг баталгаажуулсан.
+- `testFullConstructorAndAttendees`, `testToString`, `testSettersAndGetters` — `toString()` NPE-гүй ажиллахын тулд `room` болон `attendees`-ийг **null биш** өгч, найруулгыг шалгасан.
+- `testDayBlockingConstructor`, `testDescriptionConstructor`, `testDetailedConstructor`.
+
+**OrganizationTest**
+- `testGetEmployeeSuccess` / `testGetEmployeeFail`
+- `testGetRoomSuccess` / `testGetRoomFail`
+- `testEmployeesListNotEmpty`, `testRoomsListNotEmpty`
+
+> **Тэмдэглэл:** `PlannerInterface` (CLI main) болон `TimeConflictException` классуудыг **coverage-ээс хассан** (шаардлагын дагуу).
+
+---
+
+### 2) Илэрсэн дефектүүд (white-box-оор илэрсэн)
+
+1. **`Calendar.checkTimes(...)` сар шалгалтын алдаа**  
+   Одоогийн код: `if (mMonth < 1 || mMonth >= 12)` → **12-р сарыг** “байхгүй” гэж буруу үздэг.  
+   **Зөв**: `if (mMonth < 1 || mMonth > 12)`.
+
+2. **Бүрэн давхцах интервалыг илрүүлэхгүй (isBusy/addMeeting)**  
+   Одоогийн логик зөвхөн “шинэ уулзалтын **start** эсвэл **end** нь байгаа уулзалтын интервалын **дотор** байвал” гэж шалгадаг.  
+   **Full cover** (ж: existing 10–12, new 9–13) үед огтлолцол байгаа ч **илрүүлэхгүй**.  
+   **Зөв шалгалтын хэлбэр (санал):** `if (newStart <= oldEnd && newEnd >= oldStart)`.
+
+Эдгээрийг бид **код өөрчлөхгүй**, зөвхөн **тестээр илрүүлж** тайлагнасан.
+
+---
+
+### 3) Тестийн гүйлтийн дүн
+
+Ant + JaCoCo-гоор иж бүрэн гүйлгэв:
+```bash
+ant clean compile compile-tests coverage
+
