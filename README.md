@@ -30,3 +30,69 @@ run-tests:
 
 BUILD SUCCESSFUL
 Total time: 2 seconds
+
+# Лабораторийн ажил №08  
+## Цагаан хайрцагны тест (White-box Structural Testing)
+
+### 🎯 Зорилго
+Өмнөх лабораторийн ажил №07 дээр уулзалт төлөвлөлтийн програмд **нэгжийн тест (Unit test)** бичсэн.  
+Энэ удаад кодын **бүтцийн түвшинд** тест бичиж, **statement** болон **branch coverage**-ийг бүрэн хангах зорилготой.
+
+---
+
+### ⚙️ Ашигласан орчин
+| Тохиргоо | Үзүүлэлт |
+|-----------|-----------|
+| IDE | VS Code |
+| Build tool | Apache Ant |
+| Test framework | JUnit 4 |
+| Coverage tool | JaCoCo (Ant plugin) |
+| JDK | OpenJDK 17 |
+| Report path | `coverage/report/index.html` |
+
+---
+
+### 🧩 Хийсэн ажлын дараалал
+
+1. **JaCoCo coverage** интеграц хийсэн  
+   `build.xml` файлд дараах target нэмэв:
+   ```xml
+   <target name="coverage" depends="compile-tests">
+       <mkdir dir="coverage"/>
+       <jacoco:coverage destfile="coverage/jacoco.exec">
+           <junit printsummary="yes" haltonfailure="false" fork="true">
+               <formatter type="plain" usefile="false"/>
+               <classpath>
+                   <pathelement path="${build}/main"/>
+                   <pathelement path="${build}/test"/>
+                   <fileset dir="${lib}">
+                       <include name="**/*.jar"/>
+                   </fileset>
+               </classpath>
+               <batchtest>
+                   <fileset dir="${src.test}">
+                       <include name="**/*Test.java"/>
+                   </fileset>
+               </batchtest>
+           </junit>
+       </jacoco:coverage>
+
+       <jacoco:report>
+           <executiondata>
+               <file file="coverage/jacoco.exec"/>
+           </executiondata>
+           <structure name="MeetingPlanner">
+               <classfiles>
+                   <fileset dir="${build}/main">
+                       <exclude name="**/PlannerInterface.class"/>
+                       <exclude name="**/TimeConflictException.class"/>
+                   </fileset>
+               </classfiles>
+               <sourcefiles encoding="UTF-8">
+                   <fileset dir="${src.main}"/>
+               </sourcefiles>
+           </structure>
+           <html destdir="coverage/report"/>
+       </jacoco:report>
+   </target>
+
