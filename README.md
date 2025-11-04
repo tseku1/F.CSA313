@@ -96,3 +96,5 @@ Total time: 2 seconds
        </jacoco:report>
    </target>
 
+
+run: ant clean compile compile-tests coverage
