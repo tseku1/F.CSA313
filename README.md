@@ -104,13 +104,13 @@ run: ant clean compile compile-tests coverage
 ### 1) Нэмсэн / шинэчилсэн white-box тестүүд
 
 **CalendarTest**
-- `checkTimes_monthTwelve_bug` — `mMonth == 12` үед буруу `TimeConflictException` шидэж байгааг (кодын алдаа) барьсан.
-- `isBusy_bug_fullCover_returnsFalseButShouldBeTrue` — бүрэн давхцах интервал (existing 10–12, new 9–13) үед `isBusy` буруу ажиллаж байгааг харуулсан (логикийн цоорхой).
+- `checkTimes_monthTwelve_bug` — `mMonth == 12` үед буруу `TimeConflictException` шидэж байгааг барьсан.
+- `isBusy_bug_fullCover_returnsFalseButShouldBeTrue` — бүрэн давхцах интервал (existing 10–12, new 9–13) үед `isBusy` буруу ажиллаж байгааг харуулсан.
 - `addMeeting_bug_fullCover_notDetected` — бүрэн давхцах үед `addMeeting` зөрчил илрүүлж `TimeConflictException` шидэх ёстой ч илрүүлэхгүй байгааг (логикийн цоорхой) барьсан.
 - `testAddMeeting_holiday` — бүхэл өдөр блоклох (0–23) уулзалт нэмэх ба завгүй байдлыг шалгасан.
 
 **PersonTest**
-- `testAddMeetingAndIsBusy` — эндпойнт **inclusive** гэдгийг харгалзан 11–12-ыг **busy=true** гэж баталгаажуулсан (boundary нөхцөл).
+- `testAddMeetingAndIsBusy` — эндпойнт **inclusive** гэдгийг харгалзан 11–12-ыг **busy=true** гэж баталгаажуулсан.
 - `testAddConflictingMeetingThrowsException` — давхцах уулзалт нэмэхэд `TimeConflictException`-ийн мессеж **“Conflict for attendee …”** префикс зөв гарч буйг шалгасан.
 - Бусад: `testRemoveMeeting`, `testPrintAgenda`, `testConstructorAndGetName`.
 
@@ -129,7 +129,7 @@ run: ant clean compile compile-tests coverage
 - `testGetRoomSuccess` / `testGetRoomFail`
 - `testEmployeesListNotEmpty`, `testRoomsListNotEmpty`
 
-> **Тэмдэглэл:** `PlannerInterface` (CLI main) болон `TimeConflictException` классуудыг **coverage-ээс хассан** (шаардлагын дагуу).
+> **Тэмдэглэл:** `PlannerInterface` (CLI main) болон `TimeConflictException` классуудыг **coverage-ээс хассан**.
 
 ---
 
