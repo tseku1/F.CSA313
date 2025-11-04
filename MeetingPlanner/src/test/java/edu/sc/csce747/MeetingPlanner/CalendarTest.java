@@ -2,6 +2,8 @@ package edu.sc.csce747.MeetingPlanner;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.junit.Test;
 
 public class CalendarTest {
@@ -10,17 +12,36 @@ public class CalendarTest {
 	
 	@Test
 	public void testAddMeeting_holiday() {
-		// Create Midsommar holiday
 		Calendar calendar = new Calendar();
-		// Add to calendar object.
 		try {
 			Meeting midsommar = new Meeting(6, 26, "Midsommar");
-			calendar.addMeeting(midsommar);
-			// Verify that it was added.
+			calendar.addMeeting(midsommar);	
 			Boolean added = calendar.isBusy(6, 26, 0, 23);
 			assertTrue("Midsommar should be marked as busy on the calendar",added);
 		} catch(TimeConflictException e) {
 			fail("Should not throw exception: " + e.getMessage());
 		}
+	}
+
+	@Test(expected = TimeConflictException.class)
+	public void checkTimes_monthTwelve_bug() throws Exception {
+		Calendar.checkTimes(12, 10, 8, 9);
+	}
+
+	@Test
+	public void isBusy_bug_fullCover_returnsFalseButShouldBeTrue() throws Exception {
+		Calendar cal = new Calendar();
+		cal.addMeeting(new Meeting(1, 10, 10, 12));
+		assertFalse(cal.isBusy(1, 10, 9, 13), "BUG: bvren hamarch baihad true true baih ystoi");
+	}
+
+	@Test
+	public void addMeeting_bug_fullCover_notDetected() throws Exception {
+		Calendar c = new Calendar();
+		java.util.ArrayList<Person> attendees = new java.util.ArrayList<>();
+		Room room = new Room("R1");
+
+		c.addMeeting(new Meeting(1, 10, 10, 12, attendees, room, "seed"));
+		c.addMeeting(new Meeting(1, 10, 9, 13, attendees, room, "covering")); // bug: Exception шидэхгүй
 	}
 }
