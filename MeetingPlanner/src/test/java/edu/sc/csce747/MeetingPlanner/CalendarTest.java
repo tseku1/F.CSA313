@@ -22,6 +22,7 @@ public class CalendarTest {
 			fail("Should not throw exception: " + e.getMessage());
 		}
 	}
+	
 
 	@Test(expected = TimeConflictException.class)
 	public void checkTimes_monthTwelve_bug() throws Exception {
@@ -42,6 +43,6 @@ public class CalendarTest {
 		Room room = new Room("R1");
 
 		c.addMeeting(new Meeting(1, 10, 10, 12, attendees, room, "seed"));
-		c.addMeeting(new Meeting(1, 10, 9, 13, attendees, room, "covering")); // bug: Exception шидэхгүй
+		c.addMeeting(new Meeting(1, 10, 9, 13, attendees, room, "covering"));
 	}
 }
