@@ -1,7 +1,17 @@
 Testsuite: edu.sc.csce747.MeetingPlanner.CalendarTest
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.033 sec
+Tests run: 4, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.054 sec
 
-Testcase: checkTimes_monthTwelve_bug took 0.007 sec
-Testcase: testAddMeeting_holiday took 0.001 sec
+Testcase: checkTimes_monthTwelve_bug took 0.01 sec
+	FAILED
+Expected exception: edu.sc.csce747.MeetingPlanner.TimeConflictException
+junit.framework.AssertionFailedError: Expected exception: edu.sc.csce747.MeetingPlanner.TimeConflictException
+
+Testcase: testAddMeeting_holiday took 0.003 sec
 Testcase: addMeeting_bug_fullCover_notDetected took 0.002 sec
-Testcase: isBusy_bug_fullCover_returnsFalseButShouldBeTrue took 0.006 sec
+Testcase: isBusy_bug_fullCover_returnsFalseButShouldBeTrue took 0.013 sec
+	FAILED
+BUG: bvren hamarch baihad true true baih ystoi ==> expected: <false> but was: <true>
+junit.framework.AssertionFailedError: BUG: bvren hamarch baihad true true baih ystoi ==> expected: <false> but was: <true>
+	at edu.sc.csce747.MeetingPlanner.CalendarTest.isBusy_bug_fullCover_returnsFalseButShouldBeTrue(Unknown Source)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+

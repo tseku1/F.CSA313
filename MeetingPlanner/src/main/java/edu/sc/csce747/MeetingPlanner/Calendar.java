@@ -59,7 +59,7 @@ public class Calendar {
 		checkTimes(month,day,start,end);
 		
 		for(Meeting toCheck : occupied.get(month).get(day)){
-			if(start >= toCheck.getStartTime() && start <= toCheck.getEndTime()){
+			if(start >= toCheck.getStartTime() || start <= toCheck.getEndTime()){
 				busy=true;
 			}else if(end >= toCheck.getStartTime() && end <= toCheck.getEndTime()){
 				busy=true;
@@ -83,7 +83,7 @@ public class Calendar {
 		}
 
 		// 
-		if(mMonth < 1 || mMonth >= 12){
+		if(mMonth < 1 || mMonth > 12){
 			throw new TimeConflictException("Month does not exist.");
 		}
 
@@ -123,7 +123,7 @@ public class Calendar {
 		for(Meeting toCheck : thatDay){
 			if(!toCheck.getDescription().equals("Day does not exist")){
 				// Does the start time fall between this meeting's start and end times?
-				if(mStart >= toCheck.getStartTime() && mStart <= toCheck.getEndTime()){
+				if(mStart > toCheck.getStartTime() && mStart <= toCheck.getEndTime()){
 					booked = true;
 					conflict = toCheck;
 					// Does the end time fall between this meeting's start and end times?
